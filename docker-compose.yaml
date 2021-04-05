@@ -1,0 +1,70 @@
+version: "3.8"
+
+services:
+    # app-command:
+    #     build:
+    #         context: ./
+    #         dockerfile: Dockerfile
+    #     image: serbanblebea/coffee-shop-cqrs-command:0.1
+    #     depends_on:
+    #         - db-write
+    #         - db-read
+    #     restart: always
+    #     container_name: app-command
+    #     command: ["./coffee-shop", "start"]
+    #     env_file:
+    #         - ./.env
+    #     ports:
+    #         - 8087:${HTTP_PORT}
+    
+    # app-query:
+    #     build:
+    #         context: ./
+    #         dockerfile: Dockerfile
+    #     image: serbanblebea/coffee-shop-cqrs-query:0.1
+    #     depends_on:
+    #         - db-write
+    #         - db-read
+    #     restart: always
+    #     container_name: app-query
+    #     command: ["./coffee-shop", "start"]
+    #     env_file:
+    #         - ./.env
+    #     ports:
+    #         - 8088:${HTTP_PORT}
+
+    db:
+        image: mariadb:latest
+        container_name: db
+        volumes:
+            - ./volume/mysql:/var/lib/mysql
+            - ./mysql-init:/docker-entrypoint-initdb.d
+        restart: always
+        env_file:
+            - ./.env
+        ports:
+            - 3306:3306
+
+    eventstore:
+        image: eventstore/eventstore
+        ports:
+            - 1112:1112
+            - 1113:1113
+            - 2112:2112
+            - 2113:2113
+        container_name: eventstore
+        volumes:
+            - ./volume/eventstore/lib:/var/lib/eventstore
+            - ./volume/eventstore/log:/var/log/eventstore
+        restart: always
+        env_file:
+            - ./.env
+        environment:
+            - EVENTSTORE_CLUSTER_SIZE=1
+            - EVENTSTORE_RUN_PROJECTIONS=All
+            - EVENTSTORE_START_STANDARD_PROJECTIONS=true
+            - EVENTSTORE_EXT_TCP_PORT=1113
+            - EVENTSTORE_EXT_HTTP_PORT=2113
+            - EVENTSTORE_INSECURE=true
+            - EVENTSTORE_ENABLE_EXTERNAL_TCP=true
+            - EVENTSTORE_ENABLE_ATOM_PUB_OVER_HTTP=true

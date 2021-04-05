@@ -1,0 +1,24 @@
+POST http://localhost:8080/api/v1/user HTTP/1.1
+content-type: application/json
+
+{
+    "first_name": "Mihai",
+    "last_name": "Blebea",
+    "age": 31
+}
+
+###
+
+POST http://localhost:8081/api/v1/order HTTP/1.1
+content-type: application/json
+
+{
+    "coffee_id": "1234",
+    "user_id": "12334444",
+    "amount": 150
+}
+
+###
+
+@user_id=a7102f4e-2e38-443b-94b0-a40d0a09f2d8
+GET http://localhost:8082/api/v1/bonus?user_id={{user_id}} HTTP/1.1
