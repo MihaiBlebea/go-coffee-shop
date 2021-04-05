@@ -37,3 +37,7 @@ func (s *Service) GetCoffeeByID(id string) (*Coffee, error) {
 
 	return &Coffee{}, errors.New("Could not find coffee by id")
 }
+
+func (s *Service) GetAll() []Coffee {
+	return s.products
+}

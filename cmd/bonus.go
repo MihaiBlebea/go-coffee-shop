@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"github.com/MihaiBlebea/coffee-shop/bonus/conn"
+	"github.com/MihaiBlebea/coffee-shop/bonus/event"
 	"github.com/MihaiBlebea/coffee-shop/bonus/server"
 	"github.com/MihaiBlebea/coffee-shop/bonus/server/handler"
 	"github.com/MihaiBlebea/coffee-shop/bonus/stamp"
@@ -32,6 +33,13 @@ var startBonusCmd = &cobra.Command{
 		}
 
 		stampService := stamp.New(c)
+
+		bus, err := event.New(stampService)
+		if err != nil {
+			return err
+		}
+
+		go bus.Listen()
 
 		s := server.New(handler.New(stampService, l), l)
 

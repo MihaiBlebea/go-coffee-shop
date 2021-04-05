@@ -29,8 +29,11 @@ func New() (*Service, error) {
 	}, nil
 }
 
-func (s *Service) Publish(eventType string, data interface{}, meta interface{}) error {
-	ev := goes.NewEvent(goes.NewUUID(), eventType, &data, &meta)
+func (s *Service) Publish(name string, data interface{}) error {
+	meta := make(map[string]string)
+	meta["Name"] = name
+
+	ev := goes.NewEvent(goes.NewUUID(), name, &data, &meta)
 
 	writer := s.client.NewStreamWriter(s.streamName)
 

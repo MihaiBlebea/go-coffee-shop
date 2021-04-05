@@ -3,6 +3,8 @@ package cmd
 import (
 	"os"
 
+	"github.com/MihaiBlebea/coffee-shop/account/event"
+	"github.com/MihaiBlebea/coffee-shop/order/coffee"
 	"github.com/MihaiBlebea/coffee-shop/order/conn"
 	"github.com/MihaiBlebea/coffee-shop/order/payment"
 	"github.com/MihaiBlebea/coffee-shop/order/server"
@@ -31,9 +33,19 @@ var startOrderCmd = &cobra.Command{
 			return err
 		}
 
-		paymentService := payment.New(c)
+		evStore, err := event.New()
+		if err != nil {
+			return err
+		}
 
-		s := server.New(handler.New(paymentService, l), l)
+		coffeeService, err := coffee.New()
+		if err != nil {
+			return err
+		}
+
+		paymentService := payment.New(c, evStore, coffeeService)
+
+		s := server.New(handler.New(paymentService, coffeeService, l), l)
 
 		s.Run()
 

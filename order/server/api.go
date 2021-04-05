@@ -17,6 +17,8 @@ type Logger interface {
 type Handler interface {
 	HealthEndpoint() http.Handler
 	OrderEndpoint() http.Handler
+	OrdersEndpoint() http.Handler
+	MenuEndpoint() http.Handler
 }
 
 type Service struct {

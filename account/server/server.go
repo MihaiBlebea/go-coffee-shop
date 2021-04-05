@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 )
 
 const prefix = "/api/v1/"
@@ -22,12 +23,12 @@ func runServer(handler Handler, logger Logger) {
 		Methods("GET")
 
 	r.Handle("/user", handler.AuthenticateEndpoint()).
-		Methods("POST")
+		Methods(http.MethodPost)
 
 	r.Use(loggerMiddleware(logger))
 
 	srv := &http.Server{
-		Handler:      r,
+		Handler:      cors.Default().Handler(r),
 		Addr:         fmt.Sprintf("0.0.0.0:%s", os.Getenv("HTTP_PORT_ACCOUNT")),
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,

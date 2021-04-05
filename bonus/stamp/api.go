@@ -23,6 +23,20 @@ func (s *Service) NewStamp(userID string) (*Stamp, error) {
 	return stamp, nil
 }
 
+func (s *Service) AssignWelcomeStamps(userID string) error {
+	stampsCount := 3
+	for stampsCount >= 0 {
+		_, err := s.NewStamp(userID)
+		if err != nil {
+			return err
+		}
+
+		stampsCount -= 1
+	}
+
+	return nil
+}
+
 func (s *Service) GetStampsForUser(userID string) ([]Stamp, error) {
 	return s.repo.getStampsForUser(userID)
 }

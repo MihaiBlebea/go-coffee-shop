@@ -4,6 +4,7 @@
         "name": "Coffee Mocha",
         "size": 0,
         "price": 120,
+        "image": "https://pplprs.co.uk/wp-content/uploads/Caffe-Nero-Music-Licence.jpg",
         "ingredients": {
             "coffee": 1,
             "milk": 50,
@@ -16,6 +17,7 @@
         "name": "Coffee Mocha",
         "size": 1,
         "price": 220,
+        "image": "https://pplprs.co.uk/wp-content/uploads/Caffe-Nero-Music-Licence.jpg",
         "ingredients": {
             "coffee": 2,
             "milk": 120,
@@ -28,6 +30,7 @@
         "name": "Coffee Mocha",
         "size": 2,
         "price": 320,
+        "image": "https://pplprs.co.uk/wp-content/uploads/Caffe-Nero-Music-Licence.jpg",
         "ingredients": {
             "coffee": 2,
             "milk": 180,

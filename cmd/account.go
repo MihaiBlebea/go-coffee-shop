@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"github.com/MihaiBlebea/coffee-shop/account/conn"
+	"github.com/MihaiBlebea/coffee-shop/account/event"
 	"github.com/MihaiBlebea/coffee-shop/account/server"
 	"github.com/MihaiBlebea/coffee-shop/account/server/handler"
 	"github.com/MihaiBlebea/coffee-shop/account/user"
@@ -31,7 +32,12 @@ var startAccountCmd = &cobra.Command{
 			return err
 		}
 
-		userService := user.New(c)
+		evStore, err := event.New()
+		if err != nil {
+			return err
+		}
+
+		userService := user.New(c, evStore)
 
 		s := server.New(handler.New(userService, l), l)
 
